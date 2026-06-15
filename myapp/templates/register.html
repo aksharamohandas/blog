@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Register</title>
+   <!-- Clean and modern rounded font -->
+   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <!-- Font Awesome for sleek input icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <style>
+      /* Modern Reset & Layout Rules */
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         font-family: 'Fredoka', sans-serif;
+      }
+
+      body {
+         background-color: #f3e8ff; /* Soft lavender outer background */
+         min-height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding: 20px;
+      }
+
+      /* Main Split-Screen Container Card */
+      .split-container {
+         background-color: #ffffff;
+         width: 100%;
+         max-width: 1000px; /* Slightly wider to give the entry form breathing room */
+         min-height: 680px;
+         border-radius: 30px;
+         box-shadow: 0 20px 50px rgba(168, 85, 247, 0.15);
+         display: flex;
+         overflow: hidden;
+      }
+
+      /* ====================================================
+         LEFT PANEL: Art & Illustration Section
+      ==================================================== */
+      .art-panel {
+         flex: 1;
+         background: linear-gradient(135deg, #e9d5ff, #c084fc); /* Matching gradient purples */
+         padding: 40px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         text-align: center;
+         position: relative;
+         overflow: hidden;
+      }
+
+      /* Animated floating background spheres */
+      .art-shape {
+         position: absolute;
+         background-color: rgba(147, 51, 234, 0.15);
+         border-radius: 50%;
+      }
+      .shape-1 { width: 140px; height: 140px; top: -30px; right: -20px; }
+      .shape-2 { width: 70px; height: 70px; bottom: 60px; left: 20px; }
+      
+      /* Central Creative Floating Graphic Area */
+      .graphic-circle {
+         width: 220px;
+         height: 220px;
+         background-color: #a855f7;
+         border-radius: 50%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         margin-bottom: 40px;
+         box-shadow: 0 15px 30px rgba(168, 85, 247, 0.3);
+         position: relative;
+         animation: floatSway 4s infinite ease-in-out;
+      }
+
+      @keyframes floatSway {
+         0%, 100% { transform: translateY(0) rotate(0deg); }
+         50% { transform: translateY(-12px) rotate(-5deg); }
+      }
+
+      .graphic-circle i {
+         font-size: 95px;
+         color: #ffffff;
+         margin-left: 10px; /* Aligns the rocket nicely */
+      }
+
+      /* Decorative Orbit Rings */
+      .graphic-circle::before {
+         content: '';
+         position: absolute;
+         width: 280px;
+         height: 90px;
+         border: 4px solid rgba(255, 255, 255, 0.6);
+         border-radius: 50%;
+         transform: rotate(25deg);
+         pointer-events: none;
+      }
+
+      .art-panel h2 {
+         color: #6b21a8;
+         font-size: 1.8rem;
+         font-weight: 700;
+         margin-bottom: 8px;
+         z-index: 1;
+      }
+
+      .art-panel p {
+         color: #4c1d95;
+         font-size: 0.95rem;
+         max-width: 290px;
+         line-height: 1.4;
+         z-index: 1;
+      }
+
+      /* ====================================================
+         RIGHT PANEL: Clean Registration Form Section
+      ==================================================== */
+      .form-panel {
+         flex: 1.2;
+         padding: 40px 50px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+      }
+
+      .logo-area {
+         color: #a855f7;
+         font-size: 2.3rem;
+         margin-bottom: 12px;
+      }
+
+      .form-panel h1 {
+         color: #0f172a;
+         font-size: 2.1rem;
+         font-weight: 700;
+         margin-bottom: 4px;
+      }
+
+      .form-panel .subtitle {
+         color: #64748b;
+         font-size: 0.95rem;
+         margin-bottom: 25px;
+      }
+
+      /* Form Input Fields Grid Structure */
+      .form-grid {
+         display: grid;
+         grid-template-columns: 1fr 1fr;
+         gap: 16px;
+         margin-bottom: 25px;
+      }
+
+      /* Force full width on critical fields like email and password */
+      .full-width-field {
+         grid-column: span 2;
+      }
+
+      .form-group {
+         display: flex;
+         flex-direction: column;
+      }
+
+      .form-group label {
+         font-size: 0.85rem;
+         color: #64748b;
+         font-weight: 600;
+         margin-bottom: 6px;
+      }
+
+      .input-wrapper {
+         position: relative;
+         display: flex;
+         align-items: center;
+      }
+
+      .input-wrapper input {
+         width: 100%;
+         padding: 13px 16px;
+         border-radius: 12px;
+         border: 2px solid #e2e8f0;
+         outline: none;
+         font-size: 0.95rem;
+         color: #334155;
+         transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .input-wrapper input:focus {
+         border-color: #c084fc;
+         box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
+      }
+
+      /* Sleek Wide Registration Button */
+      .submit-btn {
+         width: 100%;
+         background-color: #a855f7;
+         color: #ffffff;
+         border: none;
+         padding: 14px;
+         border-radius: 12px;
+         font-size: 1.05rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: background-color 0.2s, transform 0.1s;
+         margin-bottom: 20px;
+         box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+      }
+
+      .submit-btn:hover { background-color: #9333ea; }
+      .submit-btn:active { transform: scale(0.99); }
+
+      /* Switch Page Footer Action */
+      .footer-text {
+         text-align: center;
+         font-size: 0.9rem;
+         color: #64748b;
+         margin-top: 5px;
+      }
+
+      .footer-text a {
+         color: #a855f7;
+         text-decoration: none;
+         font-weight: 600;
+         margin-left: 4px;
+      }
+      .footer-text a:hover { text-decoration: underline; }
+
+      /* Responsive adaptation for smaller screens */
+      @media (max-width: 768px) {
+         .split-container {
+            flex-direction: column;
+            height: auto;
+            min-height: unset;
+         }
+         .art-panel {
+            padding: 30px;
+         }
+         .graphic-circle {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+         }
+         .graphic-circle i { font-size: 60px; }
+         .graphic-circle::before { width: 200px; height: 70px; }
+         .form-grid { grid-template-columns: 1fr; gap: 12px; }
+         .full-width-field { grid-column: span 1; }
+         .form-panel { padding: 30px 24px; }
+      }
+   </style>
+</head>
+<body>
+
+   <!-- Split Panel Base Framework -->
+   <div class="split-container">
+      
+      <!-- LEFT HAND COMPONENT: Illustration / Branding Panel -->
+      <div class="art-panel">
+         <div class="art-shape shape-1"></div>
+         <div class="art-shape shape-2"></div>
+
+         <!-- Orbiting Floating Rocket Icon Element -->
+         <div class="graphic-circle">
+            <i class="fa-solid fa-rocket"></i>
+         </div>
+
+         <h2>Join the community.</h2>
+         <p>Create your account today and start transforming your ideas into beautiful reality</p>
+      </div>
+
+      <!-- RIGHT HAND COMPONENT: Working Registration Form Panel -->
+      <div class="form-panel">
+         <!-- Brand Infinite Loop Style Icon -->
+         <div class="logo-area">
+            <i class="fa-solid fa-infinity"></i>
+         </div>
+
+         <h1>Create Account</h1>
+         <p class="subtitle">Get started with your details</p>
+
+         <form method="POST">
+            {% csrf_token %}
+
+            <!-- Form Fields Responsive Grid Layout -->
+            <div class="form-grid">
+               
+               <!-- Full Name Entry Item -->
+               <div class="form-group">
+                  <label>Full Name</label>
+                  <div class="input-wrapper">
+                     <input type="text" name="name" placeholder="John Doe" required>
+                  </div>
+               </div>
+
+               <!-- Username Entry Item -->
+               <div class="form-group">
+                  <label>Username</label>
+                  <div class="input-wrapper">
+                     <input type="text" name="username" placeholder="johndoe123" required>
+                  </div>
+               </div>
+
+               <!-- Email Entry Item (Full Width) -->
+               <div class="form-group full-width-field">
+                  <label>Email Address</label>
+                  <div class="input-wrapper">
+                     <input type="email" name="email" placeholder="example@mail.com" required>
+                  </div>
+               </div>
+
+               <!-- Phone Number Entry Item -->
+               <div class="form-group">
+                  <label>Phone Number</label>
+                  <div class="input-wrapper">
+                     <input type="text" name="phone" placeholder="+1 (555) 000-0000">
+                  </div>
+               </div>
+
+               <!-- Place/Location Entry Item -->
+               <div class="form-group">
+                  <label>Place</label>
+                  <div class="input-wrapper">
+                     <input type="text" name="place" placeholder="New York, USA">
+                  </div>
+               </div>
+
+               <!-- Security Password Entry Item (Full Width) -->
+               <div class="form-group full-width-field">
+                  <label>Password</label>
+                  <div class="input-wrapper">
+                     <input type="password" name="password" placeholder="••••••••" required>
+                  </div>
+               </div>
+
+            </div>
+
+            <!-- Fire Action Event -->
+            <button type="submit" class="submit-btn">Register</button>
+         </form>
+
+         <!-- Sign in routing fallback link footer -->
+         <p class="footer-text">
+            Already have an account? <a href="/login">Login here</a>
+         </p>
+      </div>
+
+   </div>
+
+</body>
+</html>

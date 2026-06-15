@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #210d1d;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(132, 61, 111, 0.05);
+        }
+
+        .header-card h2 {
+            font-size: 1.9rem;
+            color: #4a1d41;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            background-color: #843d6f;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #6e325c;
+        }
+
+        /* Modern Table Card Container */
+        .table-responsive-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 15px;
+            box-shadow: 0 15px 35px rgba(132, 61, 111, 0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #fcfaff;
+            color: #843d6f;
+            font-weight: 600;
+            padding: 16px 20px;
+            font-size: 1rem;
+            border-bottom: 2px solid #f3e8ff;
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 1.05rem;
+            color: #5c4e59;
+            border-bottom: 1px solid #f9f6fc;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #fdfbfe;
+            color: #210d1d;
+        }
+
+        .badge-place {
+            background-color: #e0e7ff;
+            color: #4338ca;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-card">
+            <h2><i class="fa-solid fa-users"></i> Registered Users</h2>
+            <a href="{% url 'admin_home' %}" class="back-btn">Dashboard</a>
+        </div>
+
+        <div class="table-responsive-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fa-regular fa-user"></i> Name</th>
+                        <th><i class="fa-regular fa-envelope"></i> Email</th>
+                        <th><i class="fa-solid fa-phone"></i> Phone</th>
+                        <th><i class="fa-solid fa-location-dot"></i> Place</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in users %}
+                        <tr>
+                            <td><strong>{{ i.name }}</strong></td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.phone }}</td>
+                            <td><span class="badge-place">{{ i.place }}</span></td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #9c8e99; padding: 30px;">
+                                No users are currently registered.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

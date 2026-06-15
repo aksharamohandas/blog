@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Fun, rounded, and high-quality modern fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Reset & Background Layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #0b1528, #020617);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glowing Background Graphics */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #38bdf8, #06b6d4);
+            filter: blur(100px);
+            opacity: 0.12;
+            z-index: 0;
+        }
+        body::before { top: -5%; left: 10%; }
+        body::after { bottom: -5%; right: 10%; background: linear-gradient(45deg, #ec4899, #f43f5e); }
+
+        /* Main Workspace Grid (Dashboard Left, Widgets Right) */
+        .workspace-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 950px;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .workspace-container {
+                grid-template-columns: 1.20fr 1fr;
+                align-items: start;
+            }
+        }
+
+        /* Base Glassmorphism Card Design */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- LEFT SIDE: ACTIONS CARD --- */
+        .dashboard-card {
+            text-align: center;
+            transform: perspective(1000px) rotateY(1deg);
+        }
+        .dashboard-card:hover {
+            transform: perspective(1000px) rotateY(0deg) translateY(-4px);
+        }
+
+        .admin-avatar {
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border-radius: 24px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+        .dashboard-card:hover .admin-avatar {
+            transform: rotate(0deg) scale(1.05);
+        }
+        .admin-avatar i {
+            font-size: 32px;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            color: #ffffff;
+            font-size: 2.3rem;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* 3D Action Buttons */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 18px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .nav-link.admin-btn { border-left: 5px solid #06b6d4; }
+        .nav-link.user-btn { border-left: 5px solid #ec4899; }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-link .arrow-icon { transition: transform 0.3s ease; opacity: 0.5; }
+
+        /* Button Hovers */
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px) scale(1.01);
+        }
+        .nav-link.admin-btn:hover { box-shadow: 0 10px 20px rgba(6, 182, 212, 0.15); }
+        .nav-link.user-btn:hover { box-shadow: 0 10px 20px rgba(236, 72, 153, 0.15); }
+        .nav-link:hover .arrow-icon { transform: translateX(5px); opacity: 1; }
+
+        /* --- RIGHT SIDE: WIDGETS --- */
+        .widgets-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Mini Calendar Design */
+        .calendar-title {
+            font-family: 'Fredoka', sans-serif;
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+        .cal-day-name {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+        }
+        .cal-date {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            padding: 8px 0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .cal-date:hover:not(.empty) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+        }
+        /* Active Glowing Day Highlight */
+        .cal-date.current-day {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Fun Quote Box Widget */
+        .quote-box {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px dashed rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 0 20px 28px 0;
+        }
+        .quote-box i.quote-icon {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+        .quote-text {
+            color: #e2e8f0;
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .quote-author {
+            color: #06b6d4;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-container">
+        
+        <!-- Left Side: Core Dashboard System -->
+        <div class="glass-card dashboard-card">
+            <div class="admin-avatar">
+                <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h1>Hello, Admin!</h1>
+            <p class="subtitle">Welcome back to your workspace control center.</p>
+
+            <div class="button-group">
+                <a href="/view_blogs_admin" class="nav-link admin-btn">
+                    <span class="link-content">
+                        <i class="fa-solid fa-folder-shield"></i>
+                        View Blogs Admin
+                    </span>
+                    <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+                </a>
+                
+                <a href="/view_blogs_user" class="nav-link user-btn">
+                    <span class="link-content">
+                        <i class="fa-solid fa-users"></i>
+                        View Blogs User
+                    </span>
+                    <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Side: Secondary Utility Widgets Column -->
+        <div class="widgets-column">
+            
+            <!-- Widget 1: Interactive Dynamic Mini-Calendar -->
+            <div class="glass-card">
+                <div class="calendar-title">
+                    <i class="fa-regular fa-calendar-check" style="color: #06b6d4;"></i>
+                    <span id="calendar-month-year">June 2026</span>
+                </div>
+                <div class="calendar-grid">
+                    <div class="cal-day-name">Su</div>
+                    <div class="cal-day-name">Mo</div>
+                    <div class="cal-day-name">Tu</div>
+                    <div class="cal-day-name">We</div>
+                    <div class="cal-day-name">Th</div>
+                    <div class="cal-day-name">Fr</div>
+                    <div class="cal-day-name">Sa</div>
+                    
+                    <!-- Dummy Days matching up to mid-2026 calendar structure -->
+                    <div class="cal-date empty"></div>
+                    <div class="cal-date">1</div>
+                    <div class="cal-date">2</div>
+                    <div class="cal-date">3</div>
+                    <div class="cal-date">4</div>
+                    <div class="cal-date">5</div>
+                    <div class="cal-date">6</div>
+                    <div class="cal-date">7</div>
+                    <div class="cal-date">8</div>
+                    <div class="cal-date current-day">9</div> <!-- Automatically highlighted -->
+                    <div class="cal-date">10</div>
+                    <div class="cal-date">11</div>
+                    <div class="cal-date">12</div>
+                    <div class="cal-date">13</div>
+                    <div class="cal-date">14</div>
+                    <div class="cal-date">15</div>
+                    <div class="cal-date">16</div>
+                    <div class="cal-date">17</div>
+                    <div class="cal-date">18</div>
+                    <div class="cal-date">19</div>
+                    <div class="cal-date">20</div>
+                    <div class="cal-date">21</div>
+                    <div class="cal-date">22</div>
+                    <div class="cal-date">23</div>
+                    <div class="cal-date">24</div>
+                    <div class="cal-date">25</div>
+                    <div class="cal-date">26</div>
+                    <div class="cal-date">27</div>
+                    <div class="cal-date">28</div>
+                    <div class="cal-date">29</div>
+                    <div class="cal-date">30</div>
+                </div>
+            </div>
+
+            <!-- Widget 2: Fun Tech Quote Box -->
+            <div class="glass-card quote-box">
+                <i class="fa-solid fa-quote-left quote-icon"></i>
+                <p class="quote-text" id="fun-quote">"There are two ways to write error-free code; only the third one works."</p>
+                <div class="quote-author">— Management Wisdom</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Small script to randomly cycle quotes dynamically on each refresh -->
+    <script>
+        const quotes = [
+            { text: '"There are two ways to write error-free code; only the third one works."', author: 'Management Wisdom' },
+            { text: '"To understand recursion, you must first understand recursion."', author: 'Anonymous Developer' },
+            { text: '"Deleted code is debugged code."', author: 'Jeff Sickel' },
+            { text: '" there are 10 types of people in the world: those who understand binary, and those who don\'t."', author: 'Classic Tech Joke' },
+            { text: '"It\'s not a bug – it\'s an undocumented feature!"', author: 'Every Dev Ever' }
+        ];
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('fun-quote').innerText = randomQuote.text;
+        document.querySelector('.quote-author').innerText = "— " + randomQuote.author;
+    </script>
+</body>
+</html>
